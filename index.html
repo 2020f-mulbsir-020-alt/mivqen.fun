@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Mivqen is a creator-first social platform for short-form content, communities, and digital identity building." />
+  <title>Mivqen.fun - Social Platform for Modern Creators</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fafafa;
+      --surface: rgba(255, 255, 255, 0.78);
+      --surface-strong: #ffffff;
+      --text: #111827;
+      --muted: #5b6476;
+      --line: rgba(17, 24, 39, 0.08);
+      --coral: #ff4d6d;
+      --purple: #7c3aed;
+      --blue: #3b82f6;
+      --pink: #ff2d95;
+      --mint: #23c59b;
+      --gold: #ffb703;
+      --shadow: 0 20px 50px rgba(17, 24, 39, 0.08);
+      --shadow-soft: 0 10px 30px rgba(17, 24, 39, 0.05);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(124, 58, 237, 0.14), transparent 32%),
+        radial-gradient(circle at top right, rgba(59, 130, 246, 0.14), transparent 28%),
+        radial-gradient(circle at 20% 15%, rgba(255, 45, 149, 0.12), transparent 18%),
+        linear-gradient(180deg, #ffffff 0%, #fafafa 44%, #f7f7fb 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(17, 24, 39, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(17, 24, 39, 0.02) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5), transparent 75%);
+      opacity: 0.45;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(250, 250, 250, 0.72);
+      border-bottom: 1px solid rgba(17, 24, 39, 0.06);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "Poppins", sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--coral), var(--pink), var(--purple));
+      box-shadow: 0 16px 30px rgba(255, 77, 109, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-mark::before,
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .brand-mark::before {
+      width: 14px;
+      height: 14px;
+      left: 9px;
+      top: 11px;
+    }
+
+    .brand-mark::after {
+      width: 20px;
+      height: 20px;
+      right: 7px;
+      bottom: 7px;
+      opacity: 0.86;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .nav-links a {
+      transition: transform 180ms ease, color 180ms ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+      white-space: nowrap;
+    }
+
+    .button:hover {
+      transform: translateY(-2px) scale(1.01);
+    }
+
+    .button-primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--coral), var(--pink), var(--purple));
+      box-shadow: 0 18px 34px rgba(255, 77, 109, 0.28);
+    }
+
+    .button-secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero {
+      padding: 44px 0 28px;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 28px;
+      align-items: center;
+      min-height: calc(100vh - 120px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      background: rgba(255, 255, 255, 0.68);
+      box-shadow: var(--shadow-soft);
+      font-size: 0.92rem;
+      color: var(--muted);
+      font-weight: 600;
+      width: fit-content;
+      animation: rise 0.9s ease both;
+    }
+
+    .eyebrow-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--coral), var(--purple));
+      box-shadow: 0 0 0 6px rgba(255, 77, 109, 0.12);
+    }
+
+    .hero h1 {
+      font-family: "Poppins", sans-serif;
+      font-size: clamp(3rem, 6vw, 5.8rem);
+      line-height: 0.96;
+      letter-spacing: -0.06em;
+      margin: 18px 0 18px;
+      max-width: 11ch;
+      animation: rise 1s 0.08s ease both;
+    }
+
+    .hero h1 .accent {
+      background: linear-gradient(135deg, var(--coral), var(--pink), var(--purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: clamp(1.02rem, 2vw, 1.18rem);
+      line-height: 1.7;
+      max-width: 58ch;
+      margin: 0 0 26px;
+      animation: rise 1s 0.18s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 26px;
+      animation: rise 1s 0.28s ease both;
+    }
+
+    .hero-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      animation: rise 1s 0.38s ease both;
+    }
+
+    .proof-avatars {
+      display: flex;
+      align-items: center;
+      margin-right: 4px;
+    }
+
+    .proof-avatars span {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      margin-left: -10px;
+      box-shadow: 0 8px 18px rgba(17, 24, 39, 0.12);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .proof-avatars span:first-child {
+      margin-left: 0;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 680px;
+      display: grid;
+      place-items: center;
+    }
+
+    .float-ring {
+      position: absolute;
+      inset: auto;
+      border-radius: 50%;
+      filter: blur(2px);
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .ring-1 {
+      width: 210px;
+      height: 210px;
+      top: 12px;
+      right: 18px;
+      background: radial-gradient(circle, rgba(255, 77, 109, 0.18), transparent 68%);
+    }
+
+    .ring-2 {
+      width: 260px;
+      height: 260px;
+      left: 10px;
+      top: 120px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.18), transparent 68%);
+      animation-delay: -2s;
+    }
+
+    .ring-3 {
+      width: 180px;
+      height: 180px;
+      bottom: 40px;
+      left: 60px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.18), transparent 68%);
+      animation-delay: -4s;
+    }
+
+    .story-stack {
+      position: absolute;
+      top: 0;
+      left: 22px;
+      display: flex;
+      gap: 12px;
+      animation: rise 1s 0.2s ease both;
+    }
+
+    .story {
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      padding: 4px;
+      background: linear-gradient(135deg, var(--coral), var(--pink), var(--purple));
+      box-shadow: 0 12px 24px rgba(255, 45, 149, 0.22);
+      animation: float 7s ease-in-out infinite;
+    }
+
+    .story:nth-child(2) {
+      animation-delay: -1.5s;
+    }
+
+    .story:nth-child(3) {
+      animation-delay: -3s;
+    }
+
+    .story-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.75));
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: var(--text);
+      position: relative;
+    }
+
+    .story-inner span {
+      font-size: 1.35rem;
+    }
+
+    .phone {
+      position: relative;
+      width: min(100%, 420px);
+      border-radius: 40px;
+      padding: 16px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.72));
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      animation: rise 1s 0.12s ease both, float 8s ease-in-out infinite;
+    }
+
+    .phone-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .phone-pill {
+      width: 104px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.08);
+      margin: 0 auto;
+    }
+
+    .feed-card,
+    .mini-card,
+    .profile-card,
+    .community-card,
+    .metric-card,
+    .money-card,
+    .testimonial-card,
+    .download-card {
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px);
+    }
+
+    .feed-card {
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .feed-cover {
+      height: 182px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.42), transparent 28%),
+        linear-gradient(135deg, rgba(255, 77, 109, 0.92), rgba(124, 58, 237, 0.9) 48%, rgba(59, 130, 246, 0.9));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feed-cover::before,
+    .feed-cover::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .feed-cover::before {
+      width: 148px;
+      height: 148px;
+      left: -18px;
+      top: -18px;
+    }
+
+    .feed-cover::after {
+      width: 210px;
+      height: 210px;
+      right: -58px;
+      bottom: -68px;
+    }
+
+    .feed-cover .play {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 3rem;
+      font-weight: 900;
+      text-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
+    }
+
+    .feed-content {
+      padding: 16px;
+    }
+
+    .post-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .creator-mini {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      flex: none;
+      background: linear-gradient(135deg, #ffd166, #ff4d6d, #7c3aed);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 12px 24px rgba(255, 77, 109, 0.18);
+    }
+
+    .creator-meta strong,
+    .profile-card h3,
+    .community-card h3,
+    .money-card h3,
+    .testimonial-card h3,
+    .download-card h3 {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .creator-meta span,
+    .post-body,
+    .profile-card p,
+    .community-card p,
+    .money-card p,
+    .testimonial-card p,
+    .download-card p {
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.6;
+    }
+
+    .post-stats {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(17, 24, 39, 0.06);
+    }
+
+    .heart {
+      color: var(--coral);
+      animation: pulse 1.7s ease-in-out infinite;
+    }
+
+    .section {
+      padding: 28px 0;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+
+    .section-heading h2 {
+      font-family: "Poppins", sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      margin: 0;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 52ch;
+      line-height: 1.6;
+    }
+
+    .feed-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .vertical-feed {
+      display: grid;
+      gap: 16px;
+    }
+
+    .mini-card {
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      animation: rise 0.9s ease both;
+    }
+
+    .mini-card:nth-child(2) {
+      animation-delay: 0.08s;
+    }
+
+    .mini-card:nth-child(3) {
+      animation-delay: 0.16s;
+    }
+
+    .mini-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -36px -42px auto;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 77, 109, 0.12), transparent 68%);
+    }
+
+    .reel {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .reel-badge {
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: linear-gradient(135deg, var(--coral), var(--purple));
+    }
+
+    .reel-cover {
+      height: 210px;
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.32), transparent 28%),
+        linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(255, 45, 149, 0.84), rgba(124, 58, 237, 0.92));
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .reel-cover::before {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.14);
+      right: -24px;
+      bottom: -20px;
+    }
+
+    .reel-cover .badge {
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+      font-weight: 700;
+      backdrop-filter: blur(10px);
+    }
+
+    .creator-grid,
+    .community-grid,
+    .stats-grid,
+    .money-grid,
+    .testimonial-grid,
+    .download-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .creator-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .profile-card,
+    .community-card,
+    .metric-card,
+    .money-card,
+    .testimonial-card,
+    .download-card {
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      animation: rise 0.9s ease both;
+    }
+
+    .profile-card:hover,
+    .community-card:hover,
+    .money-card:hover,
+    .testimonial-card:hover,
+    .download-card:hover,
+    .metric-card:hover,
+    .mini-card:hover {
+      transform: translateY(-4px);
+      transition: transform 200ms ease, box-shadow 200ms ease;
+      box-shadow: 0 20px 44px rgba(17, 24, 39, 0.08);
+    }
+
+    .profile-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, 0.12);
+      color: #1d4ed8;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .mini-avatars {
+      display: flex;
+      align-items: center;
+      margin-top: 14px;
+    }
+
+    .mini-avatars span {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      margin-left: -8px;
+      background: linear-gradient(135deg, rgba(255, 77, 109, 0.9), rgba(124, 58, 237, 0.9));
+    }
+
+    .mini-avatars span:first-child {
+      margin-left: 0;
+    }
+
+    .community-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .community-card::before,
+    .money-card::before,
+    .testimonial-card::before,
+    .download-card::before,
+    .metric-card::before {
+      content: "";
+      position: absolute;
+      inset: -40px auto auto -40px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 77, 109, 0.12), transparent 66%);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.04);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .metric-card {
+      text-align: left;
+      min-height: 176px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric-card strong {
+      font-family: "Poppins", sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      display: block;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--coral), var(--purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .money-grid {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+
+    .money-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .money-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(17, 24, 39, 0.06);
+    }
+
+    .money-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      flex: none;
+      box-shadow: 0 12px 20px rgba(59, 130, 246, 0.18);
+    }
+
+    .monetization-panel {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .earn-card {
+      background: linear-gradient(135deg, rgba(255, 77, 109, 0.14), rgba(124, 58, 237, 0.12));
+      border-radius: 26px;
+      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .earn-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--text);
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .cta {
+      padding: 18px 0 34px;
+    }
+
+    .cta-panel {
+      padding: 34px;
+      border-radius: 38px;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.4), transparent 28%),
+        linear-gradient(135deg, var(--coral), var(--pink), var(--purple), var(--blue));
+      color: #fff;
+      box-shadow: 0 24px 70px rgba(124, 58, 237, 0.24);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-panel::before,
+    .cta-panel::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .cta-panel::before {
+      width: 180px;
+      height: 180px;
+      top: -40px;
+      right: -40px;
+    }
+
+    .cta-panel::after {
+      width: 240px;
+      height: 240px;
+      bottom: -120px;
+      left: -80px;
+    }
+
+    .cta-panel h2 {
+      font-family: "Poppins", sans-serif;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 1;
+      letter-spacing: -0.06em;
+      margin: 0 0 12px;
+      max-width: 12ch;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-panel p {
+      margin: 0 0 22px;
+      max-width: 58ch;
+      line-height: 1.7;
+      opacity: 0.95;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-actions .button-secondary {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.18);
+      color: #fff;
+    }
+
+    .testimonial-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .quote {
+      font-size: 1.08rem;
+      line-height: 1.7;
+      margin: 0 0 18px;
+    }
+
+    .quote-mark {
+      color: var(--pink);
+      font-size: 2.2rem;
+      line-height: 1;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .quote-footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .download-grid {
+      grid-template-columns: 0.95fr 1.05fr;
+      align-items: center;
+    }
+
+    .store-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 18px;
+    }
+
+    .store-card {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(17, 24, 39, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .store-badge {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 1.35rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--text), var(--blue));
+      flex: none;
+    }
+
+    .download-preview {
+      min-height: 420px;
+      padding: 22px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.65));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .download-preview::before {
+      content: "";
+      position: absolute;
+      inset: auto 16px 16px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.14), transparent 68%);
+    }
+
+    .device {
+      width: min(100%, 300px);
+      border-radius: 34px;
+      padding: 12px;
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.95), rgba(17, 24, 39, 0.88));
+      box-shadow: 0 28px 58px rgba(17, 24, 39, 0.2);
+      position: relative;
+      color: #fff;
+    }
+
+    .device::before {
+      content: "";
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      width: 92px;
+      height: 16px;
+      border-radius: 999px;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .device-screen {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.12), transparent 28%),
+        linear-gradient(135deg, rgba(255, 77, 109, 0.95), rgba(124, 58, 237, 0.92), rgba(59, 130, 246, 0.9));
+      min-height: 388px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .device-screen .mini-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .story-cloud {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .bubble {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(10px);
+      font-size: 1.1rem;
+      box-shadow: 0 14px 24px rgba(0, 0, 0, 0.12);
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .bubble:nth-child(2n) {
+      animation-delay: -1.8s;
+    }
+
+    .bubble:nth-child(3n) {
+      animation-delay: -3.2s;
+    }
+
+    .footer {
+      padding: 12px 0 34px;
+    }
+
+    .footer-card {
+      padding: 24px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(17, 24, 39, 0.06);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.8fr 0.9fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .footer-grid h4 {
+      margin: 0 0 14px;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .footer-grid ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .footer-grid li a:hover {
+      color: var(--text);
+    }
+
+    .socials {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .social-chip {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: rgba(17, 24, 39, 0.05);
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .section-reveal {
+      animation: rise 0.8s ease both;
+    }
+
+    .delay-1 { animation-delay: 0.06s; }
+    .delay-2 { animation-delay: 0.12s; }
+    .delay-3 { animation-delay: 0.18s; }
+    .delay-4 { animation-delay: 0.24s; }
+    .delay-5 { animation-delay: 0.3s; }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.12);
+      }
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid,
+      .feed-layout,
+      .money-grid,
+      .download-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: 620px;
+      }
+
+      .creator-grid,
+      .community-grid,
+      .stats-grid,
+      .testimonial-grid,
+      .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        width: min(100% - 20px, 1180px);
+      }
+
+      .nav {
+        flex-wrap: wrap;
+      }
+
+      .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .hero {
+        padding-top: 24px;
+      }
+
+      .hero-grid {
+        min-height: auto;
+      }
+
+      .hero h1 {
+        max-width: none;
+      }
+
+      .hero-visual {
+        min-height: 560px;
+      }
+
+      .story-stack {
+        left: 0;
+        top: 18px;
+      }
+
+      .phone {
+        width: 100%;
+      }
+
+      .section-heading {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .creator-grid,
+      .community-grid,
+      .stats-grid,
+      .testimonial-grid,
+      .footer-grid,
+      .store-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-panel {
+        padding: 24px;
+        border-radius: 28px;
+      }
+
+      .footer-card {
+        padding: 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="container nav">
+        <a class="brand" href="#home" aria-label="Mivqen home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Mivqen</span>
+        </a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#feed">Feed</a>
+          <a href="#creators">Creators</a>
+          <a href="#community">Community</a>
+          <a href="#monetize">Monetize</a>
+          <a href="#download">Download</a>
+        </nav>
+        <div class="nav-cta">
+          <a class="button button-secondary" href="#feed">Explore Feed</a>
+          <a class="button button-primary" href="#cta">Join Now</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">
+              <span class="eyebrow-dot" aria-hidden="true"></span>
+              Social Pulse Creator Interface
+            </div>
+            <h1>The Social Platform for Modern <span class="accent">Creators</span></h1>
+            <p>
+              Mivqen is where short-form content, community energy, and creator identity flow together.
+              Build your voice, share fast-moving moments, and turn social attention into real momentum.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#cta">Join Now</a>
+              <a class="button button-secondary" href="#feed">Explore Feed</a>
+            </div>
+            <div class="hero-proof">
+              <div class="proof-avatars" aria-hidden="true">
+                <span style="background-image: linear-gradient(135deg, #ffb703, #ff4d6d);"></span>
+                <span style="background-image: linear-gradient(135deg, #3b82f6, #7c3aed);"></span>
+                <span style="background-image: linear-gradient(135deg, #23c59b, #3b82f6);"></span>
+                <span style="background-image: linear-gradient(135deg, #ff2d95, #7c3aed);"></span>
+              </div>
+              <span>Trusted by creators shaping their social universe in real time.</span>
+            </div>
+          </div>
+
+          <div class="hero-visual" aria-label="App preview">
+            <div class="float-ring ring-1" aria-hidden="true"></div>
+            <div class="float-ring ring-2" aria-hidden="true"></div>
+            <div class="float-ring ring-3" aria-hidden="true"></div>
+
+            <div class="story-stack" aria-hidden="true">
+              <div class="story"><div class="story-inner"><span>+24</span></div></div>
+              <div class="story"><div class="story-inner"><span>LIVE</span></div></div>
+              <div class="story"><div class="story-inner"><span>NEW</span></div></div>
+            </div>
+
+            <div class="phone">
+              <div class="phone-pill" aria-hidden="true"></div>
+              <div class="phone-top">
+                <span>10:24</span>
+                <span>Mivqen Live</span>
+                <span>99%</span>
+              </div>
+
+              <article class="feed-card">
+                <div class="feed-cover">
+                  <div class="play" aria-hidden="true">▶</div>
+                </div>
+                <div class="feed-content">
+                  <div class="post-head">
+                    <div class="creator-mini">
+                      <div class="avatar">AJ</div>
+                      <div class="creator-meta">
+                        <strong>Ava Jae</strong>
+                        <span>@avajcreates · trending</span>
+                      </div>
+                    </div>
+                    <span class="pill"><span class="heart">♥</span> 128k</span>
+                  </div>
+                  <div class="post-body">A fast-cut Reel drop for the new creator challenge. Sound on. Comments exploding.</div>
+                  <div class="post-stats" style="margin-top: 14px;">
+                    <span>12.4k comments</span>
+                    <span>8.1k shares</span>
+                    <span>2.9M views</span>
+                  </div>
+                </div>
+              </article>
+
+              <div class="mini-card">
+                <div class="reel">
+                  <span class="reel-badge">TRENDING</span>
+                  <span class="pill">Creator challenge of the day</span>
+                </div>
+                <div class="reel-cover">
+                  <div class="badge">24 sec clip · 1.2M plays</div>
+                </div>
+                <div class="post-stats">
+                  <span>Like, remix, share, repeat</span>
+                  <span class="heart">♥</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="feed">
+        <div class="container">
+          <div class="section-heading section-reveal">
+            <div>
+              <h2>Trending Feed</h2>
+              <p>Short clips, living stories, and high-energy posts designed to keep the scroll moving.</p>
+            </div>
+            <p>Vertical by default. Social by design. Built for quick reactions and viral momentum.</p>
+          </div>
+          <div class="feed-layout">
+            <div class="vertical-feed">
+              <article class="mini-card delay-1">
+                <div class="reel">
+                  <span class="reel-badge">REEL</span>
+                  <span class="pill">3.8M views</span>
+                </div>
+                <div class="reel-cover">
+                  <div class="badge">#GlowUpDrop · 46 sec</div>
+                </div>
+                <div class="post-head" style="margin-bottom: 0;">
+                  <div class="creator-mini">
+                    <div class="avatar">KS</div>
+                    <div class="creator-meta">
+                      <strong>Kai Soleil</strong>
+                      <span>Fashion, edits, and moodboards</span>
+                    </div>
+                  </div>
+                  <span class="pill"><span class="heart">♥</span> 86k</span>
+                </div>
+              </article>
+
+              <article class="mini-card delay-2">
+                <div class="reel">
+                  <span class="reel-badge">STORY</span>
+                  <span class="pill">Today only</span>
+                </div>
+                <div class="reel-cover" style="background: linear-gradient(135deg, rgba(35, 197, 155, 0.95), rgba(59, 130, 246, 0.92), rgba(255, 45, 149, 0.9));">
+                  <div class="badge">Authentic, quick, and candid</div>
+                </div>
+                <div class="post-body">Creators share the little moments too. BeReal-style spontaneity with social sparkle.</div>
+              </article>
+
+              <article class="mini-card delay-3">
+                <div class="reel">
+                  <span class="reel-badge">LIVE CHAT</span>
+                  <span class="pill">18.4k active</span>
+                </div>
+                <div class="reel-cover" style="background: linear-gradient(135deg, rgba(255, 183, 3, 0.92), rgba(255, 77, 109, 0.92), rgba(124, 58, 237, 0.9));">
+                  <div class="badge">Community Q&A with instant reactions</div>
+                </div>
+                <div class="post-stats" style="justify-content: space-between;">
+                  <span>Live comments</span>
+                  <span>Sticker reactions</span>
+                  <span>Sound bites</span>
+                </div>
+              </article>
+            </div>
+
+            <aside class="mini-card delay-2" style="display: grid; gap: 14px; align-content: start;">
+              <div class="post-head">
+                <div>
+                  <span class="reel-badge">FEED PULSE</span>
+                  <h3 style="font-family: Poppins, sans-serif; font-size: 1.55rem; letter-spacing: -0.04em; margin: 12px 0 8px;">What is moving right now?</h3>
+                  <p class="post-body">A fast snapshot of what creators are posting, remixing, and reacting to across the platform.</p>
+                </div>
+              </div>
+              <div class="pill">Creator remixes up 42% this week</div>
+              <div class="pill">Community replies feel more like group chats</div>
+              <div class="pill">Stories, clips, and posts share the same energy layer</div>
+              <div class="pill">Trending sounds and visual templates go viral faster</div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="creators">
+        <div class="container">
+          <div class="section-heading section-reveal">
+            <div>
+              <h2>Creator Profiles</h2>
+              <p>Bright profile cards that feel social, alive, and easy to browse on any screen.</p>
+            </div>
+            <p>Followers, bios, and verified energy presented like a live creator directory.</p>
+          </div>
+          <div class="creator-grid">
+            <article class="profile-card delay-1">
+              <div class="profile-top">
+                <div class="avatar">MN</div>
+                <span class="verified">Verified</span>
+              </div>
+              <h3>Mia Nova</h3>
+              <p>Visual storyteller sharing beauty edits, creator tips, and quick social prompts.</p>
+              <div class="mini-avatars" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <p style="margin-top: 12px;">2.4M followers</p>
+            </article>
+            <article class="profile-card delay-2">
+              <div class="profile-top">
+                <div class="avatar" style="background: linear-gradient(135deg, #23c59b, #3b82f6);">RJ</div>
+                <span class="verified">Verified</span>
+              </div>
+              <h3>Riley June</h3>
+              <p>Comedy clips, stitched reactions, and community games that light up the feed.</p>
+              <div class="mini-avatars" aria-hidden="true">
+                <span style="background: linear-gradient(135deg, #ff4d6d, #ffb703);"></span><span style="background: linear-gradient(135deg, #7c3aed, #3b82f6);"></span><span style="background: linear-gradient(135deg, #23c59b, #ff2d95);"></span>
+              </div>
+              <p style="margin-top: 12px;">1.8M followers</p>
+            </article>
+            <article class="profile-card delay-3">
+              <div class="profile-top">
+                <div class="avatar" style="background: linear-gradient(135deg, #ffb703, #ff2d95);">LT</div>
+                <span class="verified">Verified</span>
+              </div>
+              <h3>Lena Type</h3>
+              <p>Music loops, fan edits, and live drops that turn followers into active fans.</p>
+              <div class="mini-avatars" aria-hidden="true">
+                <span style="background: linear-gradient(135deg, #ff2d95, #7c3aed);"></span><span style="background: linear-gradient(135deg, #3b82f6, #23c59b);"></span><span style="background: linear-gradient(135deg, #ffb703, #ff4d6d);"></span>
+              </div>
+              <p style="margin-top: 12px;">3.1M followers</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="community">
+        <div class="container">
+          <div class="section-heading section-reveal">
+            <div>
+              <h2>Community Spaces</h2>
+              <p>Interest groups, channels, and subcultures that feel light, colorful, and easy to join.</p>
+            </div>
+            <p>Discord-like organization with a bright social layer instead of a technical interface.</p>
+          </div>
+          <div class="community-grid">
+            <article class="community-card delay-1">
+              <h3>#creator-lab</h3>
+              <p>Experiment with hooks, edits, and formats together before a big drop.</p>
+              <div class="tags">
+                <span class="tag">80.2k members</span>
+                <span class="tag">New prompts daily</span>
+              </div>
+            </article>
+            <article class="community-card delay-2">
+              <h3>#style-circle</h3>
+              <p>Fashion, aesthetics, and visual identity for creators building a distinct look.</p>
+              <div class="tags">
+                <span class="tag">62.7k members</span>
+                <span class="tag">Moodboard drops</span>
+              </div>
+            </article>
+            <article class="community-card delay-3">
+              <h3>#sound-wave</h3>
+              <p>Audio trends, remix packs, and the next wave of clips ready to go viral.</p>
+              <div class="tags">
+                <span class="tag">91.4k members</span>
+                <span class="tag">Live listening</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading section-reveal">
+            <div>
+              <h2>Engagement Metrics</h2>
+              <p>Social proof, framed as a living creator ecosystem powered by constant participation.</p>
+            </div>
+            <p>Every stat card is bright, bold, and designed to feel like an active platform heartbeat.</p>
+          </div>
+          <div class="stats-grid">
+            <article class="metric-card delay-1">
+              <strong>20M+</strong>
+              <p>Posts shared across feeds, stories, and remix chains.</p>
+            </article>
+            <article class="metric-card delay-2">
+              <strong>5M+</strong>
+              <p>Active creators building their identity and audience.</p>
+            </article>
+            <article class="metric-card delay-3">
+              <strong>100M+</strong>
+              <p>Likes daily from a fast, reactive social audience.</p>
+            </article>
+            <article class="metric-card delay-4">
+              <strong>2M+</strong>
+              <p>Communities where niche culture turns into real momentum.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="monetize">
+        <div class="container">
+          <div class="section-heading section-reveal">
+            <div>
+              <h2>Creator Monetization</h2>
+              <p>Friendly earnings tools for creators, brands, and fans without the cold financial look.</p>
+            </div>
+            <p>Designed to feel like creator support features, not enterprise revenue software.</p>
+          </div>
+          <div class="money-grid">
+            <article class="money-card delay-1">
+              <h3>Make money while you post</h3>
+              <p>Mix audience-building with monetization paths that fit naturally into creator culture.</p>
+              <div class="money-list">
+                <div class="money-item">
+                  <div class="money-icon">$</div>
+                  <div>
+                    <strong>Creator earnings</strong>
+                    <p>Reward top posts, strong engagement, and community value with easy payouts.</p>
+                  </div>
+                </div>
+                <div class="money-item">
+                  <div class="money-icon">B</div>
+                  <div>
+                    <strong>Brand collaborations</strong>
+                    <p>Match creators with campaigns that fit their voice, audience, and format.</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <div class="monetization-panel">
+              <article class="earn-card delay-2">
+                <div class="earn-pill">Fan subscriptions</div>
+                <h3 style="font-family: Poppins, sans-serif; font-size: 1.7rem; letter-spacing: -0.04em; margin: 0 0 10px;">Create premium spaces for your biggest supporters.</h3>
+                <p style="margin: 0;">Private drops, behind-the-scenes access, and exclusive community content all feel native to the platform.</p>
+              </article>
+              <article class="money-card delay-3">
+                <h3>Sponsored content that still feels social</h3>
+                <p>Lightweight brand placements and creator-led storytelling with a more authentic energy layer.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta" id="cta">
+        <div class="container">
+          <div class="cta-panel section-reveal">
+            <h2>Start Creating Your Social Identity</h2>
+            <p>
+              Join a platform made for people who want to post, react, collaborate, and grow a recognizable digital presence.
+              Mivqen keeps the energy social, fast, and built for virality.
+            </p>
+            <div class="cta-actions">
+              <a class="button button-secondary" href="#creators">Become a Creator</a>
+              <a class="button button-secondary" href="#community">Join Community</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-heading section-reveal">
+            <div>
+              <h2>Testimonials</h2>
+              <p>Creator feedback presented like social proof, profile-first and expressive.</p>
+            </div>
+            <p>Each card reads like a person inside the ecosystem, not a generic corporate quote.</p>
+          </div>
+          <div class="testimonial-grid">
+            <article class="testimonial-card delay-1">
+              <span class="quote-mark">“</span>
+              <p class="quote">Mivqen feels like the missing link between posting and actually building a community around your personality.</p>
+              <div class="quote-footer">
+                <div class="avatar">NL</div>
+                <div>
+                  <strong>Nia Lee</strong>
+                  <p>Creator and visual storyteller</p>
+                </div>
+              </div>
+            </article>
+            <article class="testimonial-card delay-2">
+              <span class="quote-mark">“</span>
+              <p class="quote">The feed feels energetic and human. It makes sharing a clip feel like dropping into a living social moment.</p>
+              <div class="quote-footer">
+                <div class="avatar" style="background: linear-gradient(135deg, #23c59b, #3b82f6);">TC</div>
+                <div>
+                  <strong>Ty Carter</strong>
+                  <p>Comedy creator</p>
+                </div>
+              </div>
+            </article>
+            <article class="testimonial-card delay-3">
+              <span class="quote-mark">“</span>
+              <p class="quote">It has the energy of group chats, reels, and creator collabs all in one place. That combination is dangerous in the best way.</p>
+              <div class="quote-footer">
+                <div class="avatar" style="background: linear-gradient(135deg, #ffb703, #ff2d95);">SD</div>
+                <div>
+                  <strong>Sara D.</strong>
+                  <p>Community builder</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="download">
+        <div class="container">
+          <div class="section-heading section-reveal">
+            <div>
+              <h2>Download / Access</h2>
+              <p>App-style entry points that make Mivqen feel ready for mobile-first social discovery.</p>
+            </div>
+            <p>Store-like cards and a vivid device preview keep the experience playful and immediate.</p>
+          </div>
+          <div class="download-grid">
+            <article class="download-card delay-1">
+              <h3>Get Mivqen on any device</h3>
+              <p>Start browsing, posting, and joining communities from a fast social interface designed for motion and expression.</p>
+              <div class="store-grid">
+                <div class="store-card">
+                  <div class="store-badge"></div>
+                  <div>
+                    <strong>App Store</strong>
+                    <p>iPhone-ready creator feed</p>
+                  </div>
+                </div>
+                <div class="store-card">
+                  <div class="store-badge">▶</div>
+                  <div>
+                    <strong>Google Play</strong>
+                    <p>Android social experience</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="download-preview delay-2">
+              <div class="device">
+                <div class="device-screen">
+                  <div class="mini-row">
+                    <span>Mivqen Today</span>
+                    <span>For You</span>
+                  </div>
+                  <div class="story-cloud">
+                    <span class="bubble">✨</span>
+                    <span class="bubble">🎥</span>
+                    <span class="bubble">💬</span>
+                    <span class="bubble">🫶</span>
+                    <span class="bubble">🔥</span>
+                    <span class="bubble">🎧</span>
+                  </div>
+                  <div>
+                    <strong style="display: block; font-family: Poppins, sans-serif; font-size: 2rem; line-height: 0.98; letter-spacing: -0.05em; margin-bottom: 10px;">Create. Share. Go Viral.</strong>
+                    <p style="margin: 0; color: rgba(255, 255, 255, 0.86);">A social world where creators, communities, and content move together.</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-card">
+        <div class="footer-grid">
+          <div>
+            <a class="brand" href="#home" aria-label="Mivqen home">
+              <span class="brand-mark" aria-hidden="true"></span>
+              <span>Mivqen</span>
+            </a>
+            <p style="color: var(--muted); line-height: 1.7; max-width: 38ch; margin: 14px 0 0;">
+              The social platform for modern creators, expressive communities, and playful digital identity.
+            </p>
+            <div class="socials" aria-label="Social links">
+              <span class="social-chip">ig</span>
+              <span class="social-chip">tt</span>
+              <span class="social-chip">dc</span>
+              <span class="social-chip">yt</span>
+            </div>
+          </div>
+          <div>
+            <h4>Creator</h4>
+            <ul>
+              <li><a href="#creators">Profiles</a></li>
+              <li><a href="#monetize">Monetization</a></li>
+              <li><a href="#cta">Join as Creator</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Community</h4>
+            <ul>
+              <li><a href="#community">Spaces</a></li>
+              <li><a href="#feed">Trending Feed</a></li>
+              <li><a href="#download">App Access</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Support</h4>
+            <ul>
+              <li><a href="#home">About Mivqen</a></li>
+              <li><a href="#">Guidelines</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
